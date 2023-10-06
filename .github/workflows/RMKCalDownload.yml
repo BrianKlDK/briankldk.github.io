@@ -24,7 +24,7 @@ jobs:
     - name: Download File
       run: |
         # Define the URL of the file you want to download
-        FILE_URL="hhttps://calendar.google.com/calendar/ical/roskildemountainbike%40gmail.com/public/basic.ics"
+        FILE_URL="https://calendar.google.com/calendar/ical/roskildemountainbike%40gmail.com/public/basic.ics"
         
         cd rmkcalendar
 
