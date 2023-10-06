@@ -12,6 +12,9 @@ jobs:
     steps:
     - name: Checkout Repository
       uses: actions/checkout@v4.1.0
+      with:
+        ref: main  # Specify the branch to checkout
+        token: ${{ secrets.GITHUB_TOKEN }}  # Use the GitHub token for authentication
 
     - name: Download File
       run: |
