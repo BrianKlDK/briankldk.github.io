@@ -1,6 +1,6 @@
 // Edit your ics sources here
 ics_sources = [
-    {url:'rmkcalendar/basic.ics', title:'Cykelløbskalender', event_properties:{color: 'SeaGreen'}},
+    {url:'basic.ics', title:'Cykelløbskalender', event_properties:{color: 'SeaGreen'}},
 ]
 
 
