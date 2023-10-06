@@ -23,6 +23,7 @@ jobs:
       run: |
         # Define the URL of the file you want to download
         FILE_URL="https://calendar.google.com/calendar/ical/lbrt.dk_qlqgj9ia9jq1vm9ei2ohi4cjak%40group.calendar.google.com/public/basic.ics"
+        working-directory: rmkcalendar
         
         # Download the file using curl
         curl -LJO $FILE_URL -o rmkcalendar/rmkcal.ics
