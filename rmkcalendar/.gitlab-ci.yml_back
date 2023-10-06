@@ -1,0 +1,36 @@
+before_script:
+  - apt-get update
+  - apt-get -y install curl tar gzip git
+  - git config --global user.email "grincheux@framagit.org"
+  - git config --global user.name "Grincheux CI"
+  - git status
+  - git remote -v
+
+    #  - echo $PATH
+    #  - ls -la
+    #  - whereis curl wget ls echo zip unzip tar gzip
+#curl
+
+build:
+  stage: build
+  script:
+    - tar czf /tmp/archive.tar.gz ./
+    - cp /tmp/archive.tar.gz ./
+    - git add archive.tar.gz
+    - git commit -m "Nouvelle Archive"
+    - git push origin HEAD:master
+#    - >-
+#      echo 
+#      curl --request POST
+#      -H "PRIVATE-TOKEN: ${CI_JOB_TOKEN}"
+#      -H 'Content-Type: application/json'
+#      --data '{"description": "Test 1"}'
+#      ${CI_API_V4_URL}/projects/${CI_PROJECT_PATH}/repository/tags/v0.01/release
+
+#- env
+#- set
+# create release note
+#    - >-
+#        echo 
+#        curl --request POST
+#        https://gitlab.unc.nc/api/v4/projects/${APP_GITLAB_NUMBER}/repository/tags/${CI_COMMIT_TAG}/release
