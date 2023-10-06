@@ -1,0 +1,31 @@
+name: Download File
+
+on:
+  push:
+    branches:
+      - main  # Change this to your main branch name
+
+jobs:
+  download:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout Repository
+      uses: actions/checkout@v2
+
+    - name: Download File
+      run: |
+        # Define the URL of the file you want to download
+        FILE_URL="https://calendar.google.com/calendar/ical/lbrt.dk_qlqgj9ia9jq1vm9ei2ohi4cjak%40group.calendar.google.com/public/basic.ics"
+        
+        # Download the file using curl
+        curl -LJO $FILE_URL
+
+    - name: Commit and Push Changes
+      run: |
+        git config user.name "GitHub Actions"
+        git config user.email "actions@github.com"
+        git add .
+        git commit -m "Downloaded file"
+        git push
+
