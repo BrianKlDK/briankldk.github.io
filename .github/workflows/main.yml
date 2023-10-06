@@ -1,12 +1,14 @@
 name: Download File
 
 on:
+  schedule:
+    - cron: '*/30 * * * *'  # runs every 30 minutes
   push:
     branches:
       - main  # Change this to your main branch name
 
 permissions: write-all
-  
+
 
 jobs:
   download:
