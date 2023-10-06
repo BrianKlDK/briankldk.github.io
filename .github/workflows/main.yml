@@ -5,6 +5,9 @@ on:
     branches:
       - main  # Change this to your main branch name
 
+permissions: write-all
+  
+
 jobs:
   download:
     runs-on: ubuntu-latest
