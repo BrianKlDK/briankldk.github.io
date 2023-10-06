@@ -1,4 +1,4 @@
-name: Download File
+name: Download RMK Calendar File
 
 on:
   schedule:
@@ -24,7 +24,7 @@ jobs:
     - name: Download File
       run: |
         # Define the URL of the file you want to download
-        FILE_URL="https://calendar.google.com/calendar/ical/lbrt.dk_qlqgj9ia9jq1vm9ei2ohi4cjak%40group.calendar.google.com/public/basic.ics"
+        FILE_URL="hhttps://calendar.google.com/calendar/ical/roskildemountainbike%40gmail.com/public/basic.ics"
         
         cd rmkcalendar
 

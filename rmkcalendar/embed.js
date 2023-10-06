@@ -1,6 +1,6 @@
 const AGENDA_DAYS = 20;
-const DAYS_OF_WEEK = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
-const MONTHS = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+const DAYS_OF_WEEK = ['Søndag', 'Mandag', 'Tirsdag', 'Onsdag', 'Torsdag', 'Fredag', 'Lørdag'];
+const MONTHS = ['januar', 'februar', 'marts', 'april', 'maj', 'juni', 'juli', 'august', 'september', 'oktober', 'november', 'december'];
 let ampm = (h) => (h < 12 || h === 24) ? "am" : "pm";
 
 const url = new URL(window.location.href);
@@ -89,8 +89,8 @@ function setView(newView, events) {
 }
 
 function eventDetails(event) {
-	let startTime = `${(event.startDate.getHours() % 12) || 12}:${event.startDate.getMinutes() < 10 ? '0' : ''}${event.startDate.getMinutes()}`;
-	let endTime = `${(event.endDate.getHours() % 12) || 12}:${event.endDate.getMinutes() < 10 ? '0' : ''}${event.endDate.getMinutes()}`;
+	let startTime = `${event.startDate.getHours()}:${event.startDate.getMinutes() < 10 ? '0' : ''}${event.startDate.getMinutes()}`;
+	let endTime = `${event.endDate.getHours()}:${event.endDate.getMinutes() < 10 ? '0' : ''}${event.endDate.getMinutes()}`;
 	let startM = ampm(event.startDate.getHours());
 	let endM = ampm(event.endDate.getHours());
 
@@ -98,12 +98,12 @@ function eventDetails(event) {
 	eDetails.className = 'details';
 
 	let whenLabel = document.createElement('strong');
-	whenLabel.appendChild(document.createTextNode('When: '));
+	whenLabel.appendChild(document.createTextNode('Hvornår: '));
 	let when = document.createElement('span');
 	when.className = 'when';
-	let whenText = `${DAYS_OF_WEEK[event.startDate.getDay()].substring(0,3)}, ${MONTHS[event.startDate.getMonth()]} ${event.startDate.getDate()}, ${startTime}${startM} - ${endTime}${endM}`;
+	let whenText = `${DAYS_OF_WEEK[event.startDate.getDay()]} d. ${event.startDate.getDate()}. ${MONTHS[event.startDate.getMonth()]}, ${startTime} - ${endTime}`;
 	if (event.days == 1 && event.allDay) {
-		whenText = `${DAYS_OF_WEEK[event.startDate.getDay()]}, ${MONTHS[event.startDate.getMonth()].substring(0,3)} ${event.startDate.getDate()}, ${event.startDate.getFullYear()}`;
+		whenText = `${DAYS_OF_WEEK[event.startDate.getDay()]}, d. ${event.startDate.getDate()} ${MONTHS[event.startDate.getMonth()].substring(0,3)} , ${event.startDate.getFullYear()}`;
 	} else if (event.days % 1 == 0 && event.allDay) {
 		let newEnd = new Date(event.endDate.valueOf());
 		newEnd.setDate(newEnd.getDate()-1);
@@ -119,7 +119,7 @@ function eventDetails(event) {
 	if (event.location != '') {
 		eDetails.appendChild(document.createElement('br'));
 		let whereLabel = document.createElement('strong');
-		whereLabel.appendChild(document.createTextNode('Where: '));
+		whereLabel.appendChild(document.createTextNode('Hvor: '));
 		let where = document.createElement('span');
 		where.className = 'where';
 		let whereText = document.createTextNode(event.location);
@@ -137,7 +137,7 @@ function eventDetails(event) {
 	if (event.description != '') {
 		eDetails.appendChild(document.createElement('br'));
 		let descLabel = document.createElement('strong');
-		descLabel.appendChild(document.createTextNode('Description: '));
+		descLabel.appendChild(document.createTextNode('Beskrivelse: '));
 		let desc = document.createElement('span');
 		desc.className = 'description';
 		desc.innerHTML = event.description;

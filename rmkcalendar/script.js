@@ -19,14 +19,14 @@ const iframe = document.getElementById('iframe');
 
 // Defaults
 let ical = 'https://gra0007.github.io/modern-cal-embed/example.ics';
-let show_title = 1;
-let show_nav = 1;
-let show_date = 1;
-let show_details = 0;
-let show_view = 1;
-let monday_start = 0;
+let show_title = 0;
+let show_nav = 0;
+let show_date = 0;
+let show_view = 0;
+let show_details = 1;
+let monday_start = 1;
 let default_view = 0;
-let color = '#1A73E8';
+let color = '#fd7e14';
 let colorbg = '#FFFFFF';
 let colortxt = '#000000';
 let colorsecondarytxt = '#FFFFFF';

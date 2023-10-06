@@ -1,27 +1,12 @@
-# What
-Convert iCalendar ics to [FullCalendar][0] json using [ical.js][1].
+# Modern iCal Calendar Embed
 
-## Usage
-- Edit `js/custom_display.js` to provide your ics feed(s) and colors.
+<img src="https://github.com/GRA0007/modern-cal-embed/raw/master/example.png?raw=true" alt="Example">
 
-**important:** ensure you provide sufficient CORS access on the web server hosting the ics feed(s) or nothing will display (visible in browser console).
+This is a fully browser-side iCal (ics) calendar embed. It takes a link to an iCal file, and parses it and turns it into an embed. To use it, simply visit the link below and fill out the fields.
 
-# Why
-Because it's so much better to sync your website calendar with ics feed(s) that you can edit from wherever than having to handle that within an admin webpage.
+https://gra0007.github.io/modern-cal-embed/
 
-# How
-This all came from [https://github.com/leonaard/icalendar2fullcalendar](https://github.com/leonaard/icalendar2fullcalendar), which provides an out-of-the-box working solution to view calendar(s) from ics URL feeds using fullcalendar.
+**Note:** To use iCal urls that don't specify an `Access-Control-Allow-Origin` header, like from Google calendar, you'll need to use a cors proxy like https://cors-anywhere.herokuapp.com/.
 
-We 'built' (horribly hacky, but works) on that to obtain a calendar that also shows descriptions for events and handles better output info for full days event (which is already implemented in fullcalendar but somewhat not always detecting such events) and multiple days-spanning event. Most of the additional code is in `js/custom_display.js` and this is the only file you need to edit to adjust this project to your needs.
-
-## Dependencies
-A whole lot of JS stuff (in ./js/). Since newer versions are very likely to break code and I'm a JS noob, 
-librairies used for this project are all inside the repo. Feel free to update the code for more
-recent versions and queue in a nice Merge Request afterwards.
-
-
-# Contribute
-PRs welcome of course, especially to provide compatibility with more recent versions of FullCalendar.io
-
-[0]: http://fullcalendar.io/
-[1]: https://mozilla-comm.github.io/ical.js/
+You can test the embed's functionality using the following ics file url:
+`https://gra0007.github.io/modern-cal-embed/example.ics`
