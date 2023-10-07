@@ -68,7 +68,7 @@ function selectDay(date, focus = true, events = null) {
 
 	selectedDay = newSelection;
 
-	document.querySelector('#date_label span').innerHTML = `${DAYS_OF_WEEK[selectedDay.getDay()]}, ${MONTHS[selectedDay.getMonth()]} ${selectedDay.getDate()}`;
+	document.querySelector('#date_label span').innerHTML = `${DAYS_OF_WEEK[selectedDay.getDay()]}, d. ${selectedDay.getDate()}. ${MONTHS[selectedDay.getMonth()]} `;
 	document.getElementById('date').value = getHumanDate(selectedDay);
 
 	let selectedElement = document.querySelector(`td[data-date='${getHumanDate(selectedDay)}']`);
@@ -91,8 +91,6 @@ function setView(newView, events) {
 function eventDetails(event) {
 	let startTime = `${event.startDate.getHours()}:${event.startDate.getMinutes() < 10 ? '0' : ''}${event.startDate.getMinutes()}`;
 	let endTime = `${event.endDate.getHours()}:${event.endDate.getMinutes() < 10 ? '0' : ''}${event.endDate.getMinutes()}`;
-	let startM = ampm(event.startDate.getHours());
-	let endM = ampm(event.endDate.getHours());
 
 	let eDetails = document.createElement('div');
 	eDetails.className = 'details';
@@ -107,16 +105,16 @@ function eventDetails(event) {
 	} else if (event.days % 1 == 0 && event.allDay) {
 		let newEnd = new Date(event.endDate.valueOf());
 		newEnd.setDate(newEnd.getDate()-1);
-		whenText = `${MONTHS[event.startDate.getMonth()].substring(0,3)} ${event.startDate.getDate()} - ${MONTHS[newEnd.getMonth()].substring(0,3)} ${newEnd.getDate()}, ${event.startDate.getFullYear()}`;
+		whenText = `${event.startDate.getDate()}. ${MONTHS[event.startDate.getMonth()].substring(0,3)} - ${newEnd.getDate()}. ${MONTHS[newEnd.getMonth()].substring(0,3)}, ${event.startDate.getFullYear()}`;
 	} else if (event.days > 1) {
-		whenText = `${MONTHS[event.startDate.getMonth()]} ${event.startDate.getDate()}, ${startTime}${startM} - ${MONTHS[event.endDate.getMonth()]} ${event.endDate.getDate()}, ${endTime}${endM}`;
+		whenText = `${event.startDate.getDate()}. ${MONTHS[event.startDate.getMonth()]}, ${startTime} - ${event.endDate.getDate()}. ${MONTHS[event.endDate.getMonth()]}, ${endTime}`;
 	}
 
 	when.appendChild(document.createTextNode(whenText));
 	eDetails.appendChild(whenLabel);
 	eDetails.appendChild(when);
 
-	if (event.location != '') {
+	if (event.location != '' && event.location !== null) {
 		eDetails.appendChild(document.createElement('br'));
 		let whereLabel = document.createElement('strong');
 		whereLabel.appendChild(document.createTextNode('Hvor: '));
@@ -134,7 +132,7 @@ function eventDetails(event) {
 		eDetails.appendChild(where);
 	}
 
-	if (event.description != '') {
+	if (event.description != '' && event.description !== null) {
 		eDetails.appendChild(document.createElement('br'));
 		let descLabel = document.createElement('strong');
 		descLabel.appendChild(document.createTextNode('Beskrivelse: '));
@@ -164,27 +162,27 @@ function renderAgenda(events) {
 	let indicator = document.createElement('div');
 	indicator.className = 'indicator';
 	let nowDate = new Date();
-	let now = `${(nowDate.getHours() % 12) || 12}:${nowDate.getMinutes() < 10 ? '0' : ''}${nowDate.getMinutes()}`;
+	let now = `${nowDate.getHours()}:${nowDate.getMinutes() < 10 ? '0' : ''}${nowDate.getMinutes()}`;
 	let nowM = ampm(nowDate.getHours());
-	indicator.title = `${now} ${nowM}`;
+	indicator.title = `${now}`;
 	let indicatorset = false;
 	let todayHasEvents = false;
 	for (let i = 0; i < (events.length < AGENDA_DAYS ? events.length : AGENDA_DAYS); i++) {
 		let tomorrow = new Date(today.valueOf());
 		tomorrow.setDate(tomorrow.getDate() + 1);
-		if (events[i].startDate > tomorrow && !todayHasEvents) {
+		/*if (events[i].startDate > today && !todayHasEvents) {
 			todayHasEvents = true;
 			row = document.createElement('tr');
 			row.appendChild(createDateCell(
-				events[i].startDate,
-				true
+				today,
+				false
 			));
 			column = document.createElement('td');
 			column.className = 'emptyday';
 			column.appendChild(document.createTextNode('No events today'));
 			row.appendChild(column);
 			days.push(row);
-		}
+		}*/
 		if (prevDay != events[i].startDate.toDateString()) {
 			prevDay = events[i].startDate.toDateString();
 			row = document.createElement('tr');
@@ -232,19 +230,17 @@ function renderAgenda(events) {
 		eName.appendChild(document.createTextNode(events[i].name));
 		summary.appendChild(eName);
 
-		let startTime = `${(events[i].startDate.getHours() % 12) || 12}:${events[i].startDate.getMinutes() < 10 ? '0' : ''}${events[i].startDate.getMinutes()}`;
-		let endTime = `${(events[i].endDate.getHours() % 12) || 12}:${events[i].endDate.getMinutes() < 10 ? '0' : ''}${events[i].endDate.getMinutes()}`;
-		let startM = ampm(events[i].startDate.getHours());
-		let endM = ampm(events[i].endDate.getHours());
+		let startTime = `${events[i].startDate.getHours()}:${events[i].startDate.getMinutes() < 10 ? '0' : ''}${events[i].startDate.getMinutes()}`;
+		let endTime = `${events[i].endDate.getHours()}:${events[i].endDate.getMinutes() < 10 ? '0' : ''}${events[i].endDate.getMinutes()}`;
 
 		if (!events[i].allDay) {
 			let eTime = document.createElement('span');
 			eTime.className = 'time';
-			let timeText = `${startTime} ${startM == endM ? '' : startM} - ${endTime} ${endM}`;
+			let timeText = `${startTime} - ${endTime}`;
 			if (events[i].days === 0) {
-				timeText = `${startTime} ${startM}`;
+				timeText = `${startTime}`;
 			} else if (events[i].days > 1 && !events[i].allDay) {
-				timeText = `${MONTHS[events[i].startDate.getMonth()]} ${events[i].startDate.getDate()}, ${startTime}${startM} - ${MONTHS[events[i].endDate.getMonth()]} ${events[i].endDate.getDate()}, ${endTime}${endM}`;
+				timeText = `${MONTHS[events[i].startDate.getMonth()]} ${events[i].startDate.getDate()}, ${startTime} - ${MONTHS[events[i].endDate.getMonth()]} ${events[i].endDate.getDate()}, ${endTime}`;
 			}
 			eTime.appendChild(document.createTextNode(timeText));
 			summary.appendChild(eTime);
@@ -430,7 +426,7 @@ function renderCalendar(meta, events) {
 	// Date
 	let date_label = document.getElementById('date_label');
 	let date_input = document.getElementById('date');
-	document.querySelector('#date_label span').innerHTML = `${DAYS_OF_WEEK[selectedDay.getDay()]}, ${MONTHS[selectedDay.getMonth()]} ${selectedDay.getDate()}`;
+	document.querySelector('#date_label span').innerHTML = `${DAYS_OF_WEEK[selectedDay.getDay()]}, d. ${selectedDay.getDate()}. ${MONTHS[selectedDay.getMonth()]}`;
 	date_input.value = getHumanDate(selectedDay);
 	date_input.onchange = () => {
 		selectDay(date_input.value, true, events);
