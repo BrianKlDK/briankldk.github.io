@@ -16,6 +16,7 @@ const embed_field = document.getElementById('embed_link');
 const copy_button = document.getElementById('copy_url');
 const cors_button = document.getElementById('add_cors');
 const iframe = document.getElementById('iframe');
+const no_agenda_items = document.getElementById('noAgendaItems')
 
 // Defaults
 let ical = 'https://gra0007.github.io/modern-cal-embed/example.ics';
@@ -30,10 +31,11 @@ let color = '#fd7e14';
 let colorbg = '#FFFFFF';
 let colortxt = '#000000';
 let colorsecondarytxt = '#FFFFFF';
+let noAgendaItems = 20;
 
 // Reload iframe with new params
 function refresh() {
-	let embed = `${document.URL.substr(0,document.URL.lastIndexOf('/'))}/iframe.html?ical=${encodeURIComponent(ical)}&title=${show_title}&nav=${show_nav}&date=${show_date}&view=${show_view}&details=${show_details}&monstart=${monday_start}&dview=${default_view}&color=${encodeURIComponent(color)}&colorbg=${encodeURIComponent(colorbg)}&colortxt=${encodeURIComponent(colortxt)}&colorsecondarytxt=${encodeURIComponent(colorsecondarytxt)}`;
+	let embed = `${document.URL.substr(0,document.URL.lastIndexOf('/'))}/iframe.html?ical=${encodeURIComponent(ical)}&title=${show_title}&nav=${show_nav}&date=${show_date}&view=${show_view}&details=${show_details}&monstart=${monday_start}&dview=${default_view}&color=${encodeURIComponent(color)}&colorbg=${encodeURIComponent(colorbg)}&colortxt=${encodeURIComponent(colortxt)}&colorsecondarytxt=${encodeURIComponent(colorsecondarytxt)}&noAgendaItems=${noAgendaItems}`;
 	embed_field.value = embed;
 	iframe.src = embed;
 }
@@ -42,6 +44,11 @@ ical_field.addEventListener('change', () => {
 	ical = ical_field.value;
 	refresh();
 });
+
+no_agenda_items.addEventListener('change', () => {
+	noAgendaItems = no_agenda_items.value;
+	refresh();
+})
 
 show_title_field.addEventListener('change', () => {
 	show_title = show_title_field.checked ? 1 : 0;

@@ -18,6 +18,7 @@ const color = url.searchParams.get('color') || '#1A73E8';
 const colorBG = url.searchParams.get('colorbg') || '#FFFFFF';
 const colorText = url.searchParams.get('colortxt') || '#000000';
 const colorThemeText = url.searchParams.get('colorsecondarytxt') || '#FFFFFF';
+const noAgendaItems = url.searchParams.get('noAgendaItems') || AGENDA_DAYS
 
 let today = new Date();
 today.setHours(0,0,0,0);
@@ -167,7 +168,7 @@ function renderAgenda(events) {
 	indicator.title = `${now}`;
 	let indicatorset = false;
 	let todayHasEvents = false;
-	for (let i = 0; i < (events.length < AGENDA_DAYS ? events.length : AGENDA_DAYS); i++) {
+	for (let i = 0; i < (events.length < noAgendaItems ? events.length : noAgendaItems); i++) {
 		let tomorrow = new Date(today.valueOf());
 		tomorrow.setDate(tomorrow.getDate() + 1);
 		/*if (events[i].startDate > today && !todayHasEvents) {
@@ -255,10 +256,11 @@ function renderAgenda(events) {
 			column.appendChild(indicator);
 		}
 
-		if (i+1 == events.length || events[i].startDate.toDateString() != events[i+1].startDate.toDateString()) {
+		//if (i+1 == events.length || events[i].startDate.toDateString() != events[i+1].startDate.toDateString()) {
 			row.appendChild(column);
 			days.push(row);
-		}
+		//}
+		
 	}
 
 	let agenda = document.getElementById('agenda');
