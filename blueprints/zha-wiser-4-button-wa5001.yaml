@@ -17,7 +17,7 @@ blueprint:
 
     Platform: ZHA
     '
-  source_url: 
+  source_url: https://raw.githubusercontent.com/BrianKlDK/briankldk.github.io/main/blueprints/zha-wiser-4-button-wa5001.yaml
   domain: automation
   
 # Inputs
