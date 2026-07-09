@@ -1,1 +1,130 @@
+blueprint:
+  name: ZHA-Wiser 4-Button Wireless Wall Switch WA5001 model
+  description: 
+    'Blueprint to use the Schneider Electric Wireless 4 button wall switch as a remote using ZHA Events
 
+    Add seperate actions for each button function. 
+    Supports single-press and long-press for each button, total of 8 useable functions.
+
+    Action after long press stop can be used, but recommended to have it set as "Stop automation" to avoid infinite loops
+
+
+    Works for: Wiser Exxact Battery-powered Wireless Switch 4 button
+
+    Model nr: WA5001
+
+    (ZigbeeID: FLS/AIRLINK/4)
+
+    Platform: ZHA
+    '
+  source_url: 
+  domain: automation
+  
+# Inputs
+
+  input:
+    wiser_ZHA_device-ID:
+      name: Schneider Wiser Wireless wall switch
+      description: 'Wall switch to be used to controll the lights. 
+      Must be a Wiser  Battery-powered Wireless Switch 4 button
+      Model number: WA5001'
+      selector:
+        device:
+          integration: zha
+          manufacturer: Schneider Electric
+          model: FLS/AIRLINK/4
+          multiple: false
+    LHS_Up_short_press:
+      name: Upper Left Button single press
+      description: Action to run when single press on upper-left button
+      default: []
+      selector:
+        action: {}
+    LHS_Up_long_press:
+      name: Upper Left Button long press
+      description: Action to run when long press on upper-left button
+      default: []
+      selector:
+        action: {}
+    LHS_Down_short_press:
+      name: Lower left Button single press
+      description: Action to run when single press on lower-left button
+      default: []
+      selector:
+        action: {}
+    LHS_Down_long_press:
+      name: Lower left Button long press
+      description: Action to run when long press on lower-left button
+      default: []
+      selector:
+        action: {}
+    RHS_Up_short_press:
+      name: Upper Right Button single press
+      description: Action to run when single press on upper-right button
+      default: []
+      selector:
+        action: {}
+    RHS_Up_long_press:
+      name: Upper Right Button long press
+      description: Action to run when long press on upper-right button
+      default: []
+      selector:
+        action: {}
+    RHS_Down_short_press:
+      name: Lower Right Button single press
+      description: Action to run when single press on lower-right button
+      default: []
+      selector:
+        action: {}
+    RHS_Down_long_press:
+      name: Lower Right Button long press
+      description: Action to run when long press on lower-right button
+      default: []
+      selector:
+        action: {}
+    Up_Hold_stop:
+      name: Upper Buttons Stop after long press
+      description: Action to run after long press and release on either upper buttons
+      default: []
+      selector:
+        action: {}
+    Down_Hold_stop:
+      name: Lower Buttons stop after long press
+      description: Action to run after long press and release on either lower buttons
+      default: []
+      selector:
+        action: {}
+
+mode: restart
+max_exceeded: silent
+trigger:
+- platform: event
+  event_type: zha_event
+  event_data:
+    device_id: !input wiser_ZHA_device-ID
+action:
+- variables:
+    command: '{{ trigger.event.data.command }}'
+    endpoint_id: '{{ trigger.event.data.endpoint_id }}'
+    args: '{{ trigger.event.data.args }}'
+- choose:
+  - conditions: '{{ command == ''on'' and endpoint_id == 21 }}'
+    sequence: !input LHS_Up_short_press
+  - conditions: '{{ command == ''move_with_on_off'' and endpoint_id == 21 }}'
+    sequence: !input LHS_Up_long_press
+  - conditions: '{{ command == ''off'' and endpoint_id == 21 }}'
+    sequence: !input RHS_Up_short_press
+  - conditions: '{{ command == ''move'' and endpoint_id == 21 }}'
+    sequence: !input RHS_Up_long_press
+  - conditions: '{{ command == ''on'' and endpoint_id == 22 }}'
+    sequence: !input LHS_Down_short_press
+  - conditions: '{{ command == ''move_with_on_off'' and endpoint_id == 22 }}'
+    sequence: !input LHS_Down_long_press
+  - conditions: '{{ command == ''off'' and endpoint_id == 22 }}'
+    sequence: !input RHS_Down_short_press
+  - conditions: '{{ command == ''move'' and endpoint_id == 22 }}'
+    sequence: !input RHS_Down_long_press
+  - conditions: '{{ command == ''stop'' and endpoint_id == 21 }}'
+    sequence: !input Up_Hold_stop
+  - conditions: '{{ command == ''stop'' and endpoint_id == 22 }}'
+    sequence: !input Down_Hold_stop
