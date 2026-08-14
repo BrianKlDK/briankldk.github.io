@@ -149,7 +149,7 @@ action:
         target: !input target_light_1
         
   - conditions: '{{ command == ''move'' and endpoint_id == 21 }}'
-        sequence:
+    sequence:
       - repeat:
           count: '{{ 100 / dim_lvl_1 }}'
           sequence:
@@ -163,7 +163,7 @@ action:
                 minutes: 0
                 seconds: 0
                 milliseconds: '{{ delay_1 }}'
-                
+                    
   - conditions: '{{ command == ''on'' and endpoint_id == 22 }}'
     sequence: !input LHS_Down_short_press
   - conditions: '{{ command == ''move_with_on_off'' and endpoint_id == 22 }}'
